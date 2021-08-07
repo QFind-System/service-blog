@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  api-nginx:
+    container_name: api-nginx
+    build:
+      context: ${PWD}/api/docker
+      dockerfile: development/nginx/Dockerfile
+    ports:
+      - "9999:80"
+    volumes:
+      - ./api:/app/api
+    depends_on:
+      - api-php
+  api-php:
+    container_name: api-php
+    build:
+      context: ${PWD}/api/docker
+      dockerfile: development/php-fpm/Dockerfile
+    volumes:
+      - ./api:/app/api
+    depends_on:
+      - mysql
+      - mysql-test
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    volumes:
+      - ${PWD}/storage/mysql:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=tkuku"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=blog"
+    ports:
+      - "33061:3306"
+  mysql-test:
+    container_name: mysql-test
+    image: mysql:5.7
+    volumes:
+      - ${PWD}/storage/mysql-test:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=tkuku"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=blog-test"
+    ports:
+      - "33062:3306"
