@@ -24,3 +24,12 @@ Set up api-part ->
 4. Run migrations and fixtures
 5. Create test DB look usual db
 6. Run tests
+
+
+UUid -> https://symfony.com/doc/current/components/uid.html
+/**
+     * @ORM\OneToOne(targetEntity="User", inversedBy="information")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+}
