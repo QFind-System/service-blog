@@ -2,6 +2,9 @@
 
 namespace App\Entity\Blog;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Blog\ImageRepository")
  * @ORM\Table(name="images")

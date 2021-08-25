@@ -4,10 +4,12 @@ namespace App\Entity\Blog;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Blog\MenuRepository")
- * @ORM\Table(name="posts")
+ * @ORM\Table(name="menues")
  */
 class Menu
 {
@@ -36,7 +38,7 @@ class Menu
     private $status = "new";
 
     /**
-     * @ORM\OneToMany(targetEntity="Page", mappedBy="post")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", mappedBy="menues",cascade={"persist"})
      */
     private $pages;
 

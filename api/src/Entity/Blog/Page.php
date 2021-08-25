@@ -4,6 +4,8 @@ namespace App\Entity\Blog;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Blog\PageRepository")
@@ -51,9 +53,14 @@ class Page
     private $status = "new";
 
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="post")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Post", inversedBy="pages",cascade={"persist"})
      */
     private $posts;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\menu", inversedBy="pages",cascade={"persist"})
+     */
+    private $menues;
 
     /**
      * @ORM\Column(type="integer")

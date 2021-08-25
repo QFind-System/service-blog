@@ -2,7 +2,7 @@ docker-compose run --rm php-fpm                     ---- run docker container
 
 docker-compose run --rm api-php sh                  ---- enter inside container php
 
-php bin/console make:migration                      ---- create migrations with entity shcema
+php bin/console make:migration                      ---- create migrations with entity schema
 php bin/console doctrine:migrations:migrate         ---- import migrate to db
 php bin/console doctrine:fixtures:load              ---- load fixture to db
 php bin/phpunit                                     ---- run php unit tests Symfony

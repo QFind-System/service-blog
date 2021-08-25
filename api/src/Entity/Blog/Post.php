@@ -2,6 +2,9 @@
 
 namespace App\Entity\Blog;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Blog\PostRepository")
  * @ORM\Table(name="posts")
@@ -41,6 +44,11 @@ class Post
      * @Assert\NotBlank
      */
     private $status = "new";
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", mappedBy="posts",cascade={"persist"})
+     */
+    private $pages;
 
     /**
      * @ORM\Column(type="integer")
