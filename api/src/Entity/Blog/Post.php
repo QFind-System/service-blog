@@ -2,6 +2,7 @@
 
 namespace App\Entity\Blog;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,7 +35,9 @@ class Post
     private $content;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image")
+     * Many Posts has One Image.
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Blog\Image", inversedBy="post", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image", referencedColumnName="id",  nullable=false)
      */
     private $image;
 
@@ -46,9 +49,9 @@ class Post
     private $status = "new";
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", mappedBy="posts",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", mappedBy="post",cascade={"persist"})
      */
-    private $pages;
+    private $page;
 
     /**
      * @ORM\Column(type="integer")
@@ -123,12 +126,12 @@ class Post
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?Image
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(Image $image): self
     {
         $this->image = $image;
         return $this;

@@ -21,17 +21,27 @@ class Image
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $title;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
     private $link;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $title;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $alt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="image", cascade={"persist", "remove"})
+     */
+    private $post;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="image", cascade={"persist", "remove"})
+     */
+    private $page;
 
     /**
      * @var string The status of post

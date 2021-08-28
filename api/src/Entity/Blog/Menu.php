@@ -15,7 +15,7 @@ class Menu
 {
     public function __construct()
     {
-        $this->pages = new ArrayCollection();
+        $this->page = new ArrayCollection();
     }
 
     /**
@@ -38,9 +38,9 @@ class Menu
     private $status = "new";
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", mappedBy="menues",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Page", inversedBy="menues",cascade={"persist"})
      */
-    private $pages;
+    private $page;
 
     /**
      * @ORM\Column(type="integer")
@@ -107,9 +107,19 @@ class Menu
     /**
      * @return Collection
      */
-    public function getPages(): Collection
+    public function getPage(): Collection
     {
-        return $this->pages;
+        return $this->page;
+    }
+
+    /**
+     * @param Page $post
+     * @return self
+     */
+    public function setPage(Page $page): self
+    {
+        $this->page[] = $page;
+        return $this;
     }
 
     public function getCreatedBy(): ?string

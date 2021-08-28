@@ -15,7 +15,7 @@ class Page
 {
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
+        $this->post = new ArrayCollection();
     }
 
     /**
@@ -41,7 +41,9 @@ class Page
     private $content;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image")
+     * Many Pages has One Image.
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Blog\Image", inversedBy="page", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="image", referencedColumnName="id",  nullable=false)
      */
     private $image;
 
@@ -53,14 +55,14 @@ class Page
     private $status = "new";
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Post", inversedBy="pages",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Post", inversedBy="page",cascade={"persist"})
      */
-    private $posts;
+    private $post;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\menu", inversedBy="pages",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\menu", mappedBy="menu",cascade={"persist"})
      */
-    private $menues;
+    private $menu;
 
     /**
      * @ORM\Column(type="integer")
@@ -135,12 +137,12 @@ class Page
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage(): ?Image
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(Image $image): self
     {
         $this->image = $image;
         return $this;
@@ -160,9 +162,19 @@ class Page
     /**
      * @return Collection
      */
-    public function getPosts(): Collection
+    public function getPost(): Collection
     {
-        return $this->posts;
+        return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     * @return self
+     */
+    public function setPost(Post $post): self
+    {
+        $this->post[] = $post;
+        return $this;
     }
 
     public function getCreatedBy(): ?string
