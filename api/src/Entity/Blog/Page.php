@@ -60,7 +60,7 @@ class Page
     private $post;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\menu", mappedBy="menu",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Blog\Menu", mappedBy="menu",cascade={"persist"})
      */
     private $menu;
 

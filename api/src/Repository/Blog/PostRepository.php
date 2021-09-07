@@ -4,6 +4,8 @@ namespace App\Repository\Blog;
 
 use App\Entity\Blog\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -15,6 +17,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PostRepository extends ServiceEntityRepository
 {
+    /**
+     * @var int
+     */
+    private $pageCount;
 
     /**
      * PostRepository constructor.
@@ -23,6 +29,33 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+        $this->pageCount = $_ENV['PAGE_COUNT'];
+    }
+
+    /**
+     * Get all posts
+     *
+     * @param string $title
+     * @param string $status
+     * @param null $page
+     * @return array
+     */
+    public function getAll(string $title, string $status, $page = null): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        if ($title) {
+            $qb->andWhere('u.title LIKE :email')->setParameter('title', "%".$title."%");
+        }
+        if ($status) {
+            $qb->andwhere('u.status = :status')->setParameter('status', $status);
+        }
+
+        if ($page) {
+            $offset = ($page - 1)  * $this->pageCount;
+            $qb->setMaxResults($this->pageCount)->setFirstResult($offset);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -56,8 +89,8 @@ class PostRepository extends ServiceEntityRepository
      * Delete post
      *
      * @param Post $post
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Post $post): void
     {
