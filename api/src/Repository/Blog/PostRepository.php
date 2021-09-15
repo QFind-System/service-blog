@@ -52,7 +52,7 @@ class PostRepository extends ServiceEntityRepository
 
         if ($page) {
             $offset = ($page - 1)  * $this->pageCount;
-            $qb->setMaxResults($this->pageCount)->setFirstResult($offset);
+            $qb->setFirstResult($offset)->setMaxResults($this->pageCount);
         }
 
         return $qb->getQuery()->getResult();

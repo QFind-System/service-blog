@@ -20,6 +20,8 @@ class AppFixtures extends Fixture
         $post1 = $this->createPost('Post 1', 'post_1', 'Post 1 content text ...', $image1, Post::$STATUS_ACTIVE, 1, 1);
         $post2 = $this->createPost('Post 2', 'post_2', 'Post 2 content text ...', $image2, Post::$STATUS_ACTIVE, 1, 1);
         $post3 = $this->createPost('Post 3', 'post_3', 'Post 3 content text ...', $image2, Post::$STATUS_NEW, 1, 1);
+        $post4 = $this->createPost('Post 4', 'post_4', 'Post 4 content text ...', $image2, Post::$STATUS_ACTIVE, 1, 1);
+        $post5 = $this->createPost('Post 5', 'post_5', 'Post 5 content text ...', $image2, Post::$STATUS_ACTIVE, 1, 1);
 
         $page1 = $this->createPage('Page 1', 'page_1', 'Page 1 content text ...', $image1, Page::$STATUS_ACTIVE, 1, 1, [$post1, $post2]);
         $page2 = $this->createPage('Page 2', 'page_2', 'Page 2 content text ...', $image3, Page::$STATUS_ACTIVE, 1, 1, [$post3]);
@@ -33,6 +35,8 @@ class AppFixtures extends Fixture
         $manager->persist($post1);
         $manager->persist($post2);
         $manager->persist($post3);
+        $manager->persist($post4);
+        $manager->persist($post5);
         $manager->persist($page1);
         $manager->persist($page2);
         $manager->persist($menu1);

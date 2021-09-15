@@ -37,7 +37,7 @@ class Post
     /**
      * Many Posts has One Image.
      * @ORM\ManyToOne(targetEntity="\App\Entity\Blog\Image", inversedBy="post", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="image", referencedColumnName="id",  nullable=false)
+     * @ORM\JoinColumn(name="image", referencedColumnName="id",  nullable=true)
      */
     private $image;
 

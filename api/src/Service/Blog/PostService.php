@@ -2,6 +2,7 @@
 
 namespace App\Service\Blog;
 
+use App\Entity\Blog\Post;
 use App\Repository\Blog\PostRepository;
 use App\Service\Helper\SerializeService;
 use Doctrine\ORM\OptimisticLockException;
@@ -46,6 +47,45 @@ class PostService
     public function single(int $id): array
     {
         return $this->serializeService->normalize($this->postRepository->get($id));
+    }
+
+    /**
+     * Create post
+     *
+     * @param array $data
+     * @return Post
+     */
+    public function create(array $data): Post
+    {
+        $post = new Post();
+        $post->setTitle($data['title']);
+        $post->setLink($data['link']);
+        $post->setContent($data['content']);
+        $post->setCreatedBy($data['created_by']);
+        $post->setUpdatedBy($data['updated_by']);
+        $post->setStatus(Post::$STATUS_NEW)->onPrePersist()->onPreUpdate();
+        $this->postRepository->save($post);
+        return $post;
+    }
+
+    /**
+     * Update post
+     *
+     * @param array $data
+     * @param int $id
+     * @return Post $user
+     */
+    public function update(array $data, int $id): Post
+    {
+        $post = $this->postRepository->get($id);
+        $post->setTitle($data['title']);
+        $post->setLink($data['link']);
+        $post->setContent($data['content']);
+        $post->setCreatedBy($data['created_by']);
+        $post->setUpdatedBy($data['updated_by']);
+        $post->setStatus($data['status'])->onPreUpdate();
+        $this->postRepository->save($post);
+        return $post;
     }
 
     /**
